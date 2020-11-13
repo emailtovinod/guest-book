@@ -2,12 +2,18 @@ apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
   labels:
-    app: guestbook
+    app: guestbook-ui
   name: guestbook-ui-httpproxy
 spec:
-  tcpproxy:
+  routes:
+  - conditions:
+    - prefix: /
+    pathRewritePolicy:
+      replacePrefix:
+      - prefix: /
+        replacement: /
     services:
     - name: guestbook-ui
       port: 80
   virtualhost:
-    fqdn: guest-book.example.local
+    fqdn: gb-ui.example.local
